@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.watchers.business.login.model.UserVo;
 import com.watchers.common.constant.FrameworkConst;
 
 @Component
@@ -42,13 +43,13 @@ public class SessionLoginUtil {
         return sra.getRequest().getSession(false);
     }
 
-//    public static BookUser getLoginUser() {
-//        HttpSession session = SessionLoginUtil.getCurrentSession();
-//        if (session != null) {
-//            return (BookUser)session.getAttribute(FrameworkConst.LOGIN_USER);
-//        }
-//        return null;
-//    }
+    public static UserVo getLoginUser() {
+        HttpSession session = SessionLoginUtil.getCurrentSession();
+        if (session != null) {
+            return (UserVo)session.getAttribute(FrameworkConst.LOGIN_USER);
+        }
+        return null;
+    }
 
     public static String getCurrentSessionId() {
         HttpSession session = SessionLoginUtil.getCurrentSession();
@@ -58,11 +59,28 @@ public class SessionLoginUtil {
         return null;
     }
 
-//    public static String getLoginUserId() {
-//        BookUser loginUser = SessionLoginUtil.getLoginUser();
-//        if (loginUser != null) {
-//            return loginUser.getLoginId();
-//        }
-//        return null;
-//    }
+    public static String getLoginUserId() {
+        UserVo loginUser = SessionLoginUtil.getLoginUser();
+        if (loginUser != null) {
+            return loginUser.getUser_id();
+        }
+        return null;
+    }
+    
+    public static boolean procLogout(){
+    	
+    	UserVo loginUser = getLoginUser();
+    	if(loginUser != null){
+			// 로그아웃 정보 로깅
+			// AuthUtil.regLogoutInfo(loginUser);
+		}
+    	
+		// 세션 폐기
+    	HttpSession session = getCurrentSession();
+    	if(session != null){
+    		session.invalidate();
+    	}
+		
+    	return true;
+    }
 }

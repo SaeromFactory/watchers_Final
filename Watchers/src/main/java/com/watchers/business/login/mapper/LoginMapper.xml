@@ -5,8 +5,17 @@
 	<select id="getUser" parameterType="com.watchers.business.login.model.UserVo" resultType="com.watchers.business.login.model.UserVo">
 		SELECT ID AS USER_ID
 		 	 , PW AS USER_PW
+		 	 , TYPE AS USER_TYPE
+		 	 , NAME AS USER_NAME
 		  FROM user 
 		 WHERE ID = #{user_id}
 		   AND PW = #{user_pw}
 	</select>
+	
+	<update id="updUser" parameterType="com.watchers.business.login.model.UserVo">
+		UPDATE user
+		   SET LAST_LOGINDT = NOW()
+		 WHERE 1 = 1
+		   AND ID = #{user_id}
+	</update>
 </mapper>

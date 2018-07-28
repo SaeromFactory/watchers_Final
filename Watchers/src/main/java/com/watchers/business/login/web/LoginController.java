@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.watchers.business.login.model.UserVo;
 import com.watchers.business.login.service.LoginService;
+import com.watchers.common.session.manager.SessionLoginUtil;
 
 import net.sf.json.JSONObject;
 
@@ -32,5 +33,11 @@ public class LoginController {
 	@ResponseBody
 	public JSONObject goLoginProc(HttpServletRequest request, UserVo user){
 		return loginService.getUser(user);
+	}
+	
+	@RequestMapping(value="Logout.watchers", method = {RequestMethod.GET,RequestMethod.POST})
+	public String goLogout(HttpServletRequest request){
+		SessionLoginUtil.procLogout();
+		return "redirect:/Main.watchers";
 	}
 }

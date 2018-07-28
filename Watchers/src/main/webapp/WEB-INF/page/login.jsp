@@ -39,31 +39,6 @@
 	<script src="${pageContext.request.contextPath}/js/material-kit.js?v=2.0.3" type="text/javascript"></script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#btn-login").click(function() {
-                var action = $("#form-login").attr('action');
-                var form_data = {
-                    user_id: $("#user_id").val(),
-                    user_pw: $("#user_pw").val(),
-                    is_ajax: 1
-                };
-                $.ajax({
-                    type: "POST",
-                    url: action,
-                    data: form_data,
-                    success: function(response) {
-                        if (response == 'success') {
-                            $("#message").html("<p style='color:green;font-weight:bold'>로그인 성공!</p>");
-                            $("#btn-login").slideUp('slow');
-                        } else {
-                            $("#message").html("<p style='color:red'>아이디 또는 비밀번호가 잘못되었습니다.</p>");
-                        }
-                    }
-                });
-                return false;
-            });
-        });
-		
         function loginProc(){
         	
         	var params = {
@@ -79,11 +54,11 @@
 				data:params,
 				dataType:"json",
 				success:function(response){
-					console.log(response);
-					if(response.<%=FrameworkConst.RESULT_CODE%> == "<%=FrameworkConst.RESULT_SUCCESS%>"){
-// 						window.location.href = '${pageContext.request.contextPath}/';
+					if(typeof(response.<%=FrameworkConst.RESULT_CODE%>) != 'undefined') {
+						alert(response.<%=FrameworkConst.RESULT_MSG%>);
 					} else {
-<%-- 						alert(response.<%=FrameworkConst.RESULT_MSG%>); --%>
+						alert(response.user_name + ' 님 반갑습니다 !');
+						window.location.href = '${pageContext.request.contextPath}/';
 					}
 				},
 				error:function(jqXHR, status) {
@@ -109,25 +84,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="/index" class="nav-link">홈</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/login" class="nav-link">걸음걸이 유사도 검사</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/login" class="nav-link">걸음걸이 영상 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/login" class="nav-link">실종자 조회(현황)</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/login" class="nav-link">로그인</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/register" class="nav-link">회원가입</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/login" class="nav-link">문의게시판</a>
+                    <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
                 </li>
             </ul>
         </div>
@@ -139,7 +96,7 @@
         <div class="row">
             <div class="col-md-4 ml-auto mr-auto">
                 <div class="card card-signup">
-                    <form class="login" method="post" action="/login" id="form-login">
+                    <form class="login" method="post" action="" id="form-login" onsubmit="return false;">
                         <div class="card-header card-header-primary text-center">
                             <h2 class="card-title text-center">Login</h2>
                         </div>
@@ -163,8 +120,8 @@
 
                         </div>
                         <div class="card-footer" style="margin-left:-10px;">
-                            <a data-toggle="modal" data-target="#find_id" class="btn btn-link btn-primary btn-lg">아이디 찾기</a>
-                            <a data-toggle="modal" data-target="#find_pw" class="btn btn-link btn-primary btn-lg">비밀번호 찾기</a>
+                            <a data-toggle="modal" data-target="#find_id" class="btn btn-link btn-primary btn-lg">회원가입</a>
+                            <a data-toggle="modal" data-target="#find_info" class="btn btn-link btn-primary btn-lg">아이디 / 비밀번호 찾기</a>
                         </div>
                         <div class="text-center" style="margin-top:-15px;">
                             <input type="submit" id="btn-login" value="로그인하기" class="btn btn-primary btn-round" onClick="javascript:loginProc(); return false;">

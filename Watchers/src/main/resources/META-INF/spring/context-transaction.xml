@@ -74,7 +74,7 @@
     <!-- Transaction manager의 관리 대상 메소드 -->
     <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="get*" 		propagation="REQUIRED" 	isolation="DEFAULT" 	timeout="300"  	read-only="true" />
+            <tx:method name="get*" 		propagation="REQUIRED" 	isolation="DEFAULT" 	timeout="300"   />
             <tx:method name="upd*" 		propagation="REQUIRED" 	isolation="DEFAULT" 	timeout="300" 	rollback-for="java.lang.Exception" />
             <tx:method name="ins*" 		propagation="REQUIRED" 	isolation="DEFAULT" 	timeout="300" 	rollback-for="java.lang.Exception" />
             <tx:method name="del*" 		propagation="REQUIRED" 	isolation="DEFAULT" 	timeout="300" 	rollback-for="java.lang.Exception" />

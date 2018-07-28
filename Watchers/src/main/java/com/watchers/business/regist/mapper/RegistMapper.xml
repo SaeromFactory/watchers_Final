@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watchers.business.regist.mapper.RegistMapper">
+	<insert id="insUser" parameterType="com.watchers.business.login.model.UserVo">
+		INSERT user
+			 (
+			 	ID
+			 ,	PW
+			 ,	GENDER
+			 ,	TYPE
+			 ,	EMAIL
+			 ,	PHONE
+			 ,	CREATEDAT
+			 )
+		VALUES 
+			 (
+			 	#{user_id}
+			 ,	#{user_pw}
+			 ,	#{user_gender}
+			 ,	#{user_type}
+			 ,	#{email}
+			 ,	#{phone}
+			 ,	NOW()
+			 )
+	</insert>
+</mapper>

@@ -1,11 +1,9 @@
-package com.watchers.business.login.mapper;
+package com.watchers.business.regist.mapper;
 
 import com.watchers.business.login.model.UserVo;
 import com.watchers.common.annotation.WatchersMyBatisMapper;
 
 @WatchersMyBatisMapper
-public interface LoginMapper {
-	UserVo getUser(UserVo user);
-	
-	int updUser(UserVo user);
+public interface RegistMapper {
+	int insUser(UserVo user);
 }

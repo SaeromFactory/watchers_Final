@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.watchers.common.session.manager.SessionLoginUtil" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -94,27 +95,66 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a href="/index" class="nav-link">홈</a>
+            
+            	<% if(SessionLoginUtil.getLoginUser() == null) { %>
+            	<li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/index" class="nav-link">걸음걸이 유사도 검사</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/index" class="nav-link">걸음걸이 영상 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/index" class="nav-link">실종자 조회(현황)</a>
+                    <a href="${pageContext.request.contextPath}/about" class="nav-link">다운로드 / 메뉴얼</a>
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Login.watchers" class="nav-link">로그인</a>
                 </li>
+            	<% } else if(SessionLoginUtil.getLoginUser() != null) { %>
                 <li class="nav-item">
-                    <a href="/register" class="nav-link">회원가입</a>
+                    <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/login" class="nav-link">문의게시판</a>
+                    <a href="${pageContext.request.contextPath}/about" class="nav-link">다운로드 / 메뉴얼</a>
                 </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/index" class="nav-link">걸음걸이 유사도 검사</a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/index" class="nav-link">걸음걸이 영상 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/index" class="nav-link">실종자 조회(현황)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/board" class="nav-link">문의게시판</a>
+                </li>
+                <% if(SessionLoginUtil.getLoginUser().getUser_type().equals("M")) { %>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/dashboard" class="nav-link">대시보드</a>
+                </li>
+                <li class="dropdown nav-item">
+                    <a href="#pablo" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="material-icons">build</i> 회원관리 </a>
+                    <div class="dropdown-menu">
+                        <h6 class="dropdown-header">[관리자] <%=SessionLoginUtil.getLoginUser().getUser_name()%> 님 환영합니다 :) </h6>
+                        <a href="/user_accept" class="dropdown-item">회원 가입승인</a>
+                            <a href="/userlist" class="dropdown-item">회원 목록</a>
+                            <div class="dropdown-divider"></div>
+                            <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
+                    </div>
+                </li>
+                <% } else { %>
+               	<li class="dropdown nav-item">
+                    <a href="#pablo" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="material-icons">face</i> User </a>
+                    <div class="dropdown-menu">
+                        <h6 class="dropdown-header"><%=SessionLoginUtil.getLoginUser().getUser_name()%> 님
+                           	환영합니다 :)</h6>
+                        <a href="/user_inf" class="dropdown-item">회원정보 조회</a>
+                            <a href="/user_del" class="dropdown-item">회원 탈퇴</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/user_posts" class="dropdown-item">개인 게시글 관리</a>
+                            <div class="dropdown-divider"></div>
+                            <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
+                    </div>
+                </li>
+                <% } %>
+                <% } %>
             </ul>
         </div>
     </div>
@@ -331,7 +371,7 @@
                 <h5 class="modal-title">정말 로그아웃 하시겠습니까?</h5>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-link" href="/index">Logout</a>
+                <a class="btn btn-link" href="${pageContext.request.contextPath}/Logout.watchers">Logout</a>
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
             </div>
         </div>
