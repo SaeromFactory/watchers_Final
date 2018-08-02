@@ -12,7 +12,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="/assets/img/footprint.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/footprint.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
         WATCHERS
@@ -123,7 +123,7 @@
                     <a href="${pageContext.request.contextPath}/index" class="nav-link">실종자 조회(현황)</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/board" class="nav-link">문의게시판</a>
+                    <a href="${pageContext.request.contextPath}/Contact.watchers" class="nav-link">문의게시판</a>
                 </li>
                 <% if(SessionLoginUtil.getLoginUser().getUser_type().equals("M")) { %>
                 <li class="nav-item">

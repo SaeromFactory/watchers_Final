@@ -26,14 +26,13 @@ public class RegistServiceImpl implements RegistService{
 	
 	@Override
 	public JSONObject procRegist(UserVo user) {
-		
 		JSONObject result = new JSONObject();
 		
 		int cnt = registMapper.insUser(user);
 		
 		if(cnt == 1) {
 			result.put(FrameworkConst.RESULT_CODE, FrameworkConst.RESULT_SUCCESS);
-			result.put(FrameworkConst.RESULT_MSG, "회원가입 되셨습니다");
+			result.put(FrameworkConst.RESULT_MSG, "회원가입이 완료되었습니다!");
 			return result;
 		} else {
 			throw new WatchersBizException("회원가입 처리 중 오류가 발생하였습니다");

@@ -12,7 +12,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="/assets/img/footprint.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/footprint.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
         WATCHERS
@@ -120,8 +120,8 @@
 
                         </div>
                         <div class="card-footer" style="margin-left:-10px;">
-                            <a data-toggle="modal" data-target="#find_id" class="btn btn-link btn-primary btn-lg">회원가입</a>
-                            <a data-toggle="modal" data-target="#find_info" class="btn btn-link btn-primary btn-lg">아이디 / 비밀번호 찾기</a>
+                            <a href="${pageContext.request.contextPath}/Register.watchers" class="btn btn-link btn-primary btn-lg">회원가입</a>
+                            <a data-toggle="modal" data-target="#find_id" class="btn btn-link btn-primary btn-lg">아이디 / 비밀번호 찾기</a>
                         </div>
                         <div class="text-center" style="margin-top:-15px;">
                             <input type="submit" id="btn-login" value="로그인하기" class="btn btn-primary btn-round" onClick="javascript:loginProc(); return false;">

@@ -9,6 +9,7 @@
 			 ,	PW
 			 ,	GENDER
 			 ,	TYPE
+			 ,	NAME
 			 ,	EMAIL
 			 ,	PHONE
 			 ,	CREATEDAT
@@ -19,8 +20,9 @@
 			 ,	#{user_pw}
 			 ,	#{user_gender}
 			 ,	#{user_type}
-			 ,	#{email}
-			 ,	#{phone}
+			 ,	#{user_name}
+			 ,	#{user_email}
+			 ,	#{user_phone}
 			 ,	NOW()
 			 )
 	</insert>

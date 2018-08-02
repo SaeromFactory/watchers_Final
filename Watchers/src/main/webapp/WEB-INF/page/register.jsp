@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.watchers.common.constant.FrameworkConst" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,21 +39,40 @@
 	<script src="${pageContext.request.contextPath}/js/material-kit.js?v=2.0.3" type="text/javascript"></script>
 
     <script type="text/javascript">
-        window.onload = function() {
-            document.getElementById('form-register').onsubmit = function () {
-                var user_pw = document.getElementById("user_pw").value;
-                var user_pw2 = document.getElementById("user_pw2").value;
-
-                if (user_pw == user_pw2) {
-                    alert("성공");
-                } else {
-                    alert("다시 입력");
-                    return false;
-                }
-            }
-        }
-
-
+		function registProc(){
+			if($('#user_pw').val() != $('#user_pw2').val()){
+				alert('비밀번호가 일치하지 않습니다.');
+				return ;
+			}
+			
+			var params = {
+        		user_id	: $('#user_id').val()
+        	,	user_pw : $('#user_pw').val()
+        	,	user_gender : $('input[name="gender"]:checked').val()
+        	,	user_type : 'G'
+        	,	user_name : $('#user_name').val()
+        	,	user_email : $('#email').val()
+        	,	user_phone : $('#phone').val()
+        	};
+        	
+        	$.ajax({
+				type:"POST",
+				url: "${pageContext.request.contextPath}/Register.action",
+				cache: false,
+				async:true,
+				data:params,
+				dataType:"json",
+				success:function(response){
+					alert(response.<%=FrameworkConst.RESULT_MSG%>);
+					if(response.<%=FrameworkConst.RESULT_CODE%> == "<%=FrameworkConst.RESULT_SUCCESS%>") {
+						window.location.href = '${pageContext.request.contextPath}/Login.watchers';
+					}
+				},
+				error:function(jqXHR, status) {
+					alert(jqXHR.<%=FrameworkConst.RESULT_MSG%>);
+				}
+			});	
+		}
     </script>
 
 </head>
@@ -71,25 +91,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="/index" class="nav-link">홈</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/index" class="nav-link">걸음걸이 유사도 검사</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/index" class="nav-link">걸음걸이 영상 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/index" class="nav-link">실종자 조회(현황)</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/login" class="nav-link">로그인</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/register" class="nav-link">회원가입</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/login" class="nav-link">문의게시판</a>
+                    <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
                 </li>
             </ul>
         </div>
@@ -140,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="col-md-5 mr-auto">
-                                <form class="register" method="post" action="/register" id="form-register">
+                                <form class="register" method="post" action="" onsubmit="return false;" id="form-register">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -192,13 +194,13 @@
                                             </div>
                                             <div class="form-check" style="margin-left: -30px; margin-top:-20px;     padding-left: 10px;">
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="gender" id="man" value="option1">남성
+                                                    <input class="form-check-input" type="radio" name="gender" id="man" value="M">남성
                                                     <span class="circle">
                     <span class="check"></span>
                   </span>
                                                 </label>
                                                 <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="gender" id="woman" value="option2">여성
+                                                    <input class="form-check-input" type="radio" name="gender" id="woman" value="W">여성
                                                     <span class="circle">
                     <span class="check"></span>
                   </span>
@@ -227,7 +229,7 @@
                                         </div>
                                     </div>
                                     <div class="text-center" style="margin-top: 30px;">
-                                        <input type="submit" value="회원가입하기" class="btn btn-primary btn-round" id="btn-register">
+                                        <input type="submit" id="btn-register" value="회원가입하기" class="btn btn-primary btn-round" onClick="javascript:registProc(); return false;">
                                     </div>
                                 </form>
                             </div>
