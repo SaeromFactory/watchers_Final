@@ -7,8 +7,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.watchers.common.session.manager.SessionLoginUtil" %>
 <%@ page import="com.watchers.business.contact.model.BoardVo" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="net.sf.json.JSONArray" %>
+<%@ page import="net.sf.json.JSONObject" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,12 +28,16 @@
     <link href="${pageContext.request.contextPath}/demo/demo.css" rel="stylesheet" />
     
     <%
-    	List<BoardVo> rows = (ArrayList<BoardVo>)request.getAttribute("ContactList");
-    
-    	if(rows == null){
-    		rows = new ArrayList<BoardVo>();	
-    	}
+    	JSONArray list = (JSONArray)request.getAttribute("ContactList");
     %>
+    <script type="text/javascript">
+    	function goContactRead(idx){
+    		$('#contactForm').find('input[name="idx"]').val(idx);
+    		$('#contactForm').attr('action', '${pageContext.request.contextPath}/ContactRead.watchers');
+    		$('#contactForm').attr('method', 'post');
+    		$('#contactForm').submit();
+    	}
+    </script>
 </head>
 
 <body class="index-page sidebar-collapse">
@@ -60,9 +64,6 @@
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Login.watchers" class="nav-link">로그인</a>
                 </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/Register.watchers" class="nav-link">회원가입</a>
-                </li>
             	<% } else if(SessionLoginUtil.getLoginUser() != null) { %>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
@@ -80,7 +81,7 @@
                     <a href="${pageContext.request.contextPath}/index" class="nav-link">실종자 조회(현황)</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/board" class="nav-link">문의게시판</a>
+                    <a href="${pageContext.request.contextPath}/Contact.watchers" class="nav-link">문의게시판</a>
                 </li>
                 <% if(SessionLoginUtil.getLoginUser().getUser_type().equals("M")) { %>
                 <li class="nav-item">
@@ -90,8 +91,8 @@
                     <a href="#pablo" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="material-icons">build</i> 회원관리 </a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header">[관리자] <%=SessionLoginUtil.getLoginUser().getUser_name()%> 님 환영합니다 :) </h6>
-                        <a href="/user_accept" class="dropdown-item">회원 가입승인</a>
-                            <a href="/userlist" class="dropdown-item">회원 목록</a>
+                        <a href="${pageContext.request.contextPath}/user_accept" class="dropdown-item">회원 가입승인</a>
+                            <a href="${pageContext.request.contextPath}/userlist" class="dropdown-item">회원 목록</a>
                             <div class="dropdown-divider"></div>
                             <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
                     </div>
@@ -136,7 +137,7 @@
                             <div id="sendmessage">감사합니다!</div>
                             <div id="errormessage"></div>
                             <form id="contactForm" name="sentMessage" novalidate>
-
+								<input type="hidden" name="idx" value="" />
                                 <table style='text-align: center' class="table table-striped">
                                     <tr>
                                         <th>번호</th>
@@ -146,40 +147,39 @@
                                         <th>변경일</th>
                                     </tr>
                                     <%
-    for(int i=0; i<rows.size(); i++)
-    {
-
-        BoardVo row = rows.get(i);
-    %>
-                                        <tr>
-                                            <td>
-                                                <%=row.getIdx()%>
-                                            </td>
-                                            <td>
-                                                <%=row.getCreated_id()%>
-                                            </td>
-                                            <td>
-                                                <a href="${pageContext.request.contextPath}/contact_read/<%=row.getIdx()%>">
-                                                    <%=row.getTitle()%>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <%=row.getFirst_date()%>
-                                            </td>
-                                            <td>
-                                                <%=row.getRenewal_date()%>
-                                            </td>
-                                        </tr>
-                                        <%
-    }
-    %>
+								    for(int i=0; i<list.size(); i++)
+								    {
+								
+								        JSONObject row = list.getJSONObject(i);
+								    %>
+                                    <tr>
+                                        <td>
+                                            <%=row.get("idx")%>
+                                        </td>
+                                        <td>
+                                            <%=row.get("id")%>
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="javascript:goContactRead('<%=row.get("idx")%>'); return false;">
+                                                <%=row.get("title")%>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <%=row.get("first_date")%>
+                                        </td>
+                                        <td>
+                                            <%=row.get("renewal_date")%>
+                                        </td>
+                                    </tr>
+                                    <%
+								    }
+								    %>
                                 </table>
                                 <br/>
-                               <button class="btn btn-primary btn-round" style="margin-top:20px;">
-                <i class="material-icons">create</i> &nbsp;문의글 작성하기
-              </button>
+                               	<a class="btn btn-primary btn-round" style="margin-top:20px;" href="${pageContext.request.contextPath}/ContactWrite.watchers">
+				                	<i class="material-icons">create</i> &nbsp;문의글 작성하기
+				              	</a>
                                 <!--<a href="/board/write">글쓰기로 이동</a>-->
-
                             </form>
                         </div>
                     </div>

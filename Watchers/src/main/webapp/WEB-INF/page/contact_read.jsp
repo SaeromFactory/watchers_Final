@@ -6,6 +6,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.watchers.common.session.manager.SessionLoginUtil" %>
+<%@ page import="net.sf.json.JSONObject" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +25,10 @@
     <link href="${pageContext.request.contextPath}/css/material-kit.css" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="${pageContext.request.contextPath}/demo/demo.css" rel="stylesheet" />
+    
+    <%
+    	JSONObject row = (JSONObject)request.getAttribute("ContactInfo");
+    %>
 </head>
 
 <body class="index-page sidebar-collapse">
@@ -49,9 +54,6 @@
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Login.watchers" class="nav-link">로그인</a>
-                </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/Register.watchers" class="nav-link">회원가입</a>
                 </li>
             	<% } else if(SessionLoginUtil.getLoginUser() != null) { %>
                 <li class="nav-item">
@@ -125,42 +127,42 @@
                         <div class="col-md-6 col-md-offset-3">
                             <form action="/contact_update" method="get">
                                 <table class="table table-bordered">
-                                    <input type="hidden" name="idx" value="<%=row.idx%>" />
+                                    <input type="hidden" name="idx" value="<%=row.get("idx")%>" />
                                     <tr>
                                         <th width=90 style="background-color: #ededed;">제목</th>
                                         <td colspan="3">
-                                            <%= row.title %>
+                                            <%= row.get("title") %>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th width=90 style="background-color: #ededed;">작성자</th>
                                         <td colspan="3">
-                                            <%= row.created_id %>
+                                            <%= row.get("id") %>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th width=90 style="background-color: #ededed;">작성일</th>
                                         <td>
-                                            <%= row.first_date %>
+                                            <%= row.get("first_date") %>
                                         </td>
                                         <th width=90 style="background-color: #ededed;">변경일</th>
                                         <td>
-                                            <%= row.renewal_date %>
+                                            <%= row.get("renewal_date") %>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="4" style="height:240px;">
-                                            <%= row.contents %>
+                                            <%= row.get("contents") %>
                                         </td>
                                     </tr>
                                 </table>
                                 <br/>
                                 <span class="gLeft">
-                                    <a class="btn btn-primary btn-round"  href="${pageContext.request.contextPath}/contact_list">목록</a>
+                                    <a class="btn btn-primary btn-round"  href="${pageContext.request.contextPath}/Contact.watchers">목록</a>
                                 </span>
 
                                 <span class="gRight">
-                                <a class="btn btn-primary btn-round" href="/contact_update/<%=row.idx%>">글 수정하기</a>
+                                <a class="btn btn-primary btn-round" href="/contact_update/<%= row.get("idx") %>">글 수정하기</a>
                                 <a data-toggle="modal" data-target="#deletecontent" class="dropdown=item"><button type="button" class="btn btn-primary btn-round">글 삭제하기</button></a>
                                     </span><br>
                             </form>

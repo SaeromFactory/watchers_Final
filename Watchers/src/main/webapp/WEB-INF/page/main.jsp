@@ -133,8 +133,8 @@
                     <a href="#pablo" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="material-icons">build</i> 회원관리 </a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header">[관리자] <%=SessionLoginUtil.getLoginUser().getUser_name()%> 님 환영합니다 :) </h6>
-                        <a href="/user_accept" class="dropdown-item">회원 가입승인</a>
-                            <a href="/userlist" class="dropdown-item">회원 목록</a>
+                        <a href="${pageContext.request.contextPath}/user_accept" class="dropdown-item">회원 가입승인</a>
+                            <a href="${pageContext.request.contextPath}/userlist" class="dropdown-item">회원 목록</a>
                             <div class="dropdown-divider"></div>
                             <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
                     </div>
@@ -145,10 +145,10 @@
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header"><%=SessionLoginUtil.getLoginUser().getUser_name()%> 님
                            	환영합니다 :)</h6>
-                        <a href="/user_inf" class="dropdown-item">회원정보 조회</a>
-                            <a href="/user_del" class="dropdown-item">회원 탈퇴</a>
+                        <a href="${pageContext.request.contextPath}/user_inf" class="dropdown-item">회원정보 조회</a>
+                            <a href="${pageContext.request.contextPath}/user_del" class="dropdown-item">회원 탈퇴</a>
                             <div class="dropdown-divider"></div>
-                            <a href="/user_posts" class="dropdown-item">개인 게시글 관리</a>
+                            <a href="${pageContext.request.contextPath}/user_posts" class="dropdown-item">개인 게시글 관리</a>
                             <div class="dropdown-divider"></div>
                             <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
                     </div>

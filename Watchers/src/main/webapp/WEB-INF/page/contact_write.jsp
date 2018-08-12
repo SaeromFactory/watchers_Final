@@ -5,6 +5,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.watchers.common.constant.FrameworkConst" %>
 <%@ page import="com.watchers.common.session.manager.SessionLoginUtil" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +25,51 @@
     <link href="${pageContext.request.contextPath}/css/material-kit.css" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="${pageContext.request.contextPath}/demo/demo.css" rel="stylesheet" />
+    
+    <script type="text/javascript">
+		function onWriteSubmit() {
+		    if ($("#title").val().trim() == "") {
+		        var message = "제목을 입력해 주세요";
+		        $("#title").val("");
+		        $("#title").focus();
+		        alert(message);
+		        return false;
+		    }
+		
+		    if ($("#contents").val().trim() == "") {
+		        var message = "본문 내용을 입력해 주세요";
+		        $("#contents").val("");
+		        $("#contents").focus();
+		        alert(message);
+		        return false;
+		    }
+		    
+		    var params = {
+        		title	: $('#title').val()
+        	,	contents : $('#contents').val()
+        	};
+        	
+        	$.ajax({
+				type:"POST",
+				url: "${pageContext.request.contextPath}/ContactWrite.action", 
+				cache: false, 
+				async:true,
+				data:params,
+				dataType:"json",
+				success:function(response){
+					if(response.<%=FrameworkConst.RESULT_CODE%> != "<%=FrameworkConst.RESULT_SUCCESS%>") {
+						alert(response.<%=FrameworkConst.RESULT_MSG%>);
+					} else {
+						alert('문의글이 등록되었습니다.');
+						window.location.href = '${pageContext.request.contextPath}/Contact.watchers';
+					}
+				},
+				error:function(jqXHR, status) {
+					alert(jqXHR.<%=FrameworkConst.RESULT_MSG%>);
+				}
+			});	
+		}
+    </script>
 </head>
 
 <body class="index-page sidebar-collapse">
@@ -123,49 +169,24 @@
                     <div class="contact-wrap">
                         <div class="status alert alert-success" style="display: none"></div>
                         <div class="col-md-6 col-md-offset-3">
-                            <form action="/contact_write" method="post" onsubmit="return onWriteSubmit()">
+                            <form onsubmit="return false;">
                                 <table class="table table-bordered">
                                     <tr>
                                         <th width=90 style="background-color: #ededed; text-align: center;">제목</th>
-                                        <td><input type="text" name="title" id="title" required/></td>
+                                        <td><input type="text" name="title" id="title" style="width:100%;" required/></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><textarea name="contents" id="contents" cols="50" rows="10" required/></textarea></td>
+                                    	<th width=90 style="background-color: #ededed; text-align: center;">내용</th>
+                                        <td><textarea name="contents" id="contents" rows="10" cols="114" required/></textarea></td>
                                     </tr>
                                 </table>
                                 
                                 <!-- textarea 크기 변경 및 취소 버튼 클릭 시 이벤트 정하기 -->
-                               
-                                <span class="gLeft">
-                                    <a class="btn btn-primary btn-round"  href="${pageContext.request.contextPath}/contact_list">목록</a>
-                                </span>
-
                                 <span class="gRight">
-                                 <button type="submit" class="btn btn-primary btn-round">등록</button>
-                                <a href="${pageContext.request.contextPath}/contact_list"><button type="button" class="btn btn-primary btn-round">취소</button></a>
+                                 <button class="btn btn-primary btn-round" onclick="onWriteSubmit();">등록</button>
+                                <a href="${pageContext.request.contextPath}/Contact.watchers"><button type="button" class="btn btn-primary btn-round">취소</button></a>
                                     </span><br>
                             </form>
-
-                            <script>
-                                function onWriteSubmit() {
-                                    if ($("#title").val().trim() == "") {
-                                        var message = "제목을 입력해 주세요";
-                                        $("#title").val("");
-                                        $("#title").focus();
-                                        alert(message);
-                                        return false;
-                                    }
-
-                                    if ($("#contents").val().trim() == "") {
-                                        var message = "본문 내용을 입력해 주세요";
-                                        $("#contents").val("");
-                                        $("#contents").focus();
-                                        alert(message);
-                                        return false;
-                                    }
-                                }
-
-                            </script>
                         </div>
                     </div>
                     <!--/.row-->
