@@ -266,28 +266,69 @@
     </div>
 </div>
 
-<section id="team-member">
-    <div class="container">
-        <h2>Developers</h2>
-        <div class="text-center" style="display:flex;">
-            <div class="col-md-4">
-                <img class="img-circle" src="${pageContext.request.contextPath}/img/faces/avatar.jpg" alt="">
-                <h3>Song Jeongju</h3>
-                <h5>Web Designer, Kinect Developer</h5>
-            </div>
-            <div class="col-md-4">
-                <img class="img-circle" src="${pageContext.request.contextPath}/img/faces/camp.jpg" alt="">
-                <h3>Moon Hyunji</h3>
-                <h5>Server Programmer, Data Manager</h5>
-            </div>
-            <div class="col-md-4">
-                <img class="img-circle" src="${pageContext.request.contextPath}/img/faces/christian.jpg" alt="">
-                <h3>blabla</h3>
-                <h5>kienct</h5>
+    <section id="public-missing">
+        <div id="myCarousel" class="carousel slide border" data-ride="carousel">
+            <!-- indicators -->
+            <div class="container">
+                <h2>실종자 공공데이터</h2>
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
             </div>
         </div>
-    </div>
-</section>
+        <div id="myCarousel" class="carousel slide border" data-ride="carousel">
+            <!-- indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <!-- 변경 에정 -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <table class="table table-user-information">
+                        <tbody>
+                            <tr>
+                                <td>이름</td>
+                                <td>성별</td>
+                                <td>실종당시 나이</td>
+                                <td>현재 나이</td>
+                                <td>실종 지역</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%=missings.name%>
+                                </td>
+                                <td>
+                                    <%=missings.sex%>
+                                </td>
+                                <td>
+                                    <%=missings.occr_age%>
+                                </td>
+                                <td>
+                                    <%=missings.current_age%>
+                                </td>
+                                <td>
+                                    <%=missings.occr_address%>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Controls -->
+            <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </section>
 
 <section id="contact-page">
     <div class="container" style="margin-top:50px;">
