@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watchers.business.finder.mapper.FinderMapper">
+	<select id="getFinderList" resultType="com.watchers.business.finder.model.FinderVo">
+		SELECT A.IDX
+			 , A.ID
+			 , A.FILE_NAME
+			 , A.STATUS
+			 , DATE_FORMAT(A.FIRST_DATE, '%Y-%m-%d %H:%i:%s') AS FIRST_DATE
+			 , DATE_FORMAT(A.RENEWAL_DATE, '%Y-%m-%d %H:%i:%s') AS RENEWAL_DATE
+			 , B.NAME
+			 , B.EMAIL
+			 , B.PHONE
+		  FROM finder A
+		     , user B
+		 WHERE 1 = 1
+		   AND B.ID = A.ID
+		 ORDER BY IDX DESC
+	</select>
+	<update id="updFinder" parameterType="com.watchers.business.finder.model.FinderVo">
+		UPDATE finder
+		   SET ACCURACY = #{accuracy}
+		   	 , STATUS = 'Y'
+		   	 , RENEWAL_DATE = NOW()
+		   	 , MISSINGS_ID = #{missing_id}
+		 WHERE 1 = 1
+		   AND IDX = #{idx}
+	</update>
+</mapper>

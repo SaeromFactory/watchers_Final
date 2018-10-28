@@ -19,7 +19,7 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("/")
 public class RegistController {
-	Logger logger = LoggerFactory.getLogger(LoginController.class);
+	Logger logger = LoggerFactory.getLogger(RegistController.class);
 	
 	@Autowired
 	RegistService registService;

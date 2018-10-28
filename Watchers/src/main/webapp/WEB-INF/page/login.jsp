@@ -39,6 +39,10 @@
 	<script src="${pageContext.request.contextPath}/js/material-kit.js?v=2.0.3" type="text/javascript"></script>
 
     <script type="text/javascript">
+    	$(document).ready(function(){
+    		$('#user_id').focus();	
+    	})
+    	
         function loginProc(){
         	
         	var params = {

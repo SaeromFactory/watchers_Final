@@ -117,15 +117,12 @@
                     <a href="${pageContext.request.contextPath}/index" class="nav-link">걸음걸이 유사도 검사</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/index" class="nav-link">걸음걸이 영상 관리</a>
-                </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/index" class="nav-link">실종자 조회(현황)</a>
-                </li>
-                <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Contact.watchers" class="nav-link">문의게시판</a>
                 </li>
                 <% if(SessionLoginUtil.getLoginUser().getUser_type().equals("M")) { %>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/Finder.watchers" class="nav-link">걸음걸이 영상 관리</a>
+                </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/dashboard" class="nav-link">대시보드</a>
                 </li>
@@ -133,7 +130,6 @@
                     <a href="#pablo" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="material-icons">build</i> 회원관리 </a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header">[관리자] <%=SessionLoginUtil.getLoginUser().getUser_name()%> 님 환영합니다 :) </h6>
-                        <a href="${pageContext.request.contextPath}/user_accept" class="dropdown-item">회원 가입승인</a>
                             <a href="${pageContext.request.contextPath}/userlist" class="dropdown-item">회원 목록</a>
                             <div class="dropdown-divider"></div>
                             <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
@@ -266,69 +262,69 @@
     </div>
 </div>
 
-    <section id="public-missing">
-        <div id="myCarousel" class="carousel slide border" data-ride="carousel">
-            <!-- indicators -->
-            <div class="container">
-                <h2>실종자 공공데이터</h2>
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                </ol>
-            </div>
-        </div>
-        <div id="myCarousel" class="carousel slide border" data-ride="carousel">
-            <!-- indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-            </ol>
-            <!-- 변경 에정 -->
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <table class="table table-user-information">
-                        <tbody>
-                            <tr>
-                                <td>이름</td>
-                                <td>성별</td>
-                                <td>실종당시 나이</td>
-                                <td>현재 나이</td>
-                                <td>실종 지역</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <%=missings.name%>
-                                </td>
-                                <td>
-                                    <%=missings.sex%>
-                                </td>
-                                <td>
-                                    <%=missings.occr_age%>
-                                </td>
-                                <td>
-                                    <%=missings.current_age%>
-                                </td>
-                                <td>
-                                    <%=missings.occr_address%>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- Controls -->
-            <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </section>
+<!--     <section id="public-missing"> -->
+<!--         <div id="myCarousel" class="carousel slide border" data-ride="carousel"> -->
+<!--             indicators -->
+<!--             <div class="container"> -->
+<!--                 <h2>실종자 공공데이터</h2> -->
+<!--                 <ol class="carousel-indicators"> -->
+<!--                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li> -->
+<!--                     <li data-target="#myCarousel" data-slide-to="1"></li> -->
+<!--                     <li data-target="#myCarousel" data-slide-to="2"></li> -->
+<!--                 </ol> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--         <div id="myCarousel" class="carousel slide border" data-ride="carousel"> -->
+<!--             indicators -->
+<!--             <ol class="carousel-indicators"> -->
+<!--                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li> -->
+<!--                 <li data-target="#myCarousel" data-slide-to="1"></li> -->
+<!--                 <li data-target="#myCarousel" data-slide-to="2"></li> -->
+<!--             </ol> -->
+<!--             변경 에정 -->
+<!--             <div class="carousel-inner"> -->
+<!--                 <div class="carousel-item active"> -->
+<!--                     <table class="table table-user-information"> -->
+<!--                         <tbody> -->
+<!--                             <tr> -->
+<!--                                 <td>이름</td> -->
+<!--                                 <td>성별</td> -->
+<!--                                 <td>실종당시 나이</td> -->
+<!--                                 <td>현재 나이</td> -->
+<!--                                 <td>실종 지역</td> -->
+<!--                             </tr> -->
+<!--                             <tr> -->
+<!--                                 <td> -->
+<%--                                     <%=missings.name%> --%>
+<!--                                 </td> -->
+<!--                                 <td> -->
+<%--                                     <%=missings.sex%> --%>
+<!--                                 </td> -->
+<!--                                 <td> -->
+<%--                                     <%=missings.occr_age%> --%>
+<!--                                 </td> -->
+<!--                                 <td> -->
+<%--                                     <%=missings.current_age%> --%>
+<!--                                 </td> -->
+<!--                                 <td> -->
+<%--                                     <%=missings.occr_address%> --%>
+<!--                                 </td> -->
+<!--                             </tr> -->
+<!--                         </tbody> -->
+<!--                     </table> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--             Controls -->
+<!--             <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev"> -->
+<!--                 <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+<!--                 <span class="sr-only">Previous</span> -->
+<!--             </a> -->
+<!--             <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next"> -->
+<!--                 <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+<!--                 <span class="sr-only">Next</span> -->
+<!--             </a> -->
+<!--         </div> -->
+<!--     </section> -->
 
 <section id="contact-page">
     <div class="container" style="margin-top:50px;">

@@ -6,9 +6,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.watchers.common.session.manager.SessionLoginUtil" %>
-<%@ page import="com.watchers.business.contact.model.BoardVo" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.watchers.business.finder.model.FinderVo" %>
+<%@ page import="net.sf.json.JSONArray" %>
+<%@ page import="net.sf.json.JSONObject" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +27,18 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="${pageContext.request.contextPath}/demo/demo.css" rel="stylesheet" />
     
+    <!--   Core JS Files   -->
+	<script src="${pageContext.request.contextPath}/js/core/jquery.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/core/popper.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/plugins/moment.min.js"></script>
+	<!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+	<script src="${pageContext.request.contextPath}/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+	<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+	<script src="${pageContext.request.contextPath}/js/plugins/nouislider.min.js" type="text/javascript"></script>
+	<!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
+	<script src="${pageContext.request.contextPath}/js/material-kit.js" type="text/javascript"></script>
+	
      <style>
         .user-row {
             margin-bottom: 14px;
@@ -64,7 +76,9 @@
         }
 
     </style>
-    
+    <%
+    	JSONArray list = (JSONArray)request.getAttribute("FinderList");
+    %>
     <script>
         $(document).ready(function() {
             var panels = $('.user-infos');
@@ -96,6 +110,11 @@
                 e.preventDefault();
                 alert("This is a demo.\n :-)");
             });
+        
+        
+			$(document).on('change', ':file', function() {
+				$(this).parent().parent().parent().prev().val($(this).val().replace(/\\/g, '/').replace(/.*\//, ''));
+			});
         });
 
     </script>
@@ -140,7 +159,7 @@
                     <a href="${pageContext.request.contextPath}/index" class="nav-link">걸음걸이 유사도 검사</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/index" class="nav-link">걸음걸이 영상 관리</a>
+                    <a href="${pageContext.request.contextPath}/Finder.watchers" class="nav-link">걸음걸이 영상 관리</a>
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/index" class="nav-link">실종자 조회(현황)</a>
@@ -191,13 +210,24 @@
             <div class="section text-center">
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto">
-                        <h2 class="title">User List</h2>
-                        <p class="description" style="font-family: 나눔바른고딕;">회원 목록<br /></p>
+                        <h2 class="title">걸음걸이 영상 관리</h2>
                     </div>
                 </div>
                 <div class="container" style="margin-top:50px;">
                     <div class="contact-wrap">
                         <div class="status alert alert-success" style="display: none"></div>
+                        					<div class="col-lg-6 col-sm-6 col-12">
+									            <div class="input-group">
+									                <input type="text" class="form-control mt-1 pl-5" readonly>
+									                <div class="input-group-append">
+										                <label class="input-group-btn pl-0">
+										                    <span class="btn btn-primary mt-0">
+										                        	찾아보기&hellip; <input type="file" style="display: none;">
+										                    </span>
+										                </label>
+									                </div>
+									            </div>
+									        </div>
                         <div class="col-md-6 col-md-offset-3">
                             <form id="contactForm" name="sentMessage" novalidate>
 
@@ -205,45 +235,28 @@
 
                                 <table class="table table-user-information">
                                     <tbody>
-                                        <% data.forEach(function (item,index) { %>
-                                        <tr>
-                                            <td></td>
-                                            <td>아이디</td>
-                                            <td>이름</td>
-                                            <td>성별</td>
-                                            <td>휴대전화</td>
-                                            <td>이메일</td>
-                                        </tr>
-
                                         <%
-    for(var i=0; i<rows.length; i++)
-    {
-        var user = rows[i];
-    %>
+									    for(int i=0; i<list.size(); i++)
+									    {
+									
+									        JSONObject user = list.getJSONObject(i);
+									    %>
+									    	
                                         <tr>
-                                            <td><input type="checkbox" name="deletemember"></td>
-                                            <td id='id_<%=user.id%>'>
-                                                <%=user.id%>
-                                            </td>
-                                            <td id='name_<%=user.name%>'>
-                                                <%=user.name%>
-                                            </td>
-                                            <td id='gender_<%=user.gender%>'>
-                                                <%=user.gender%>
-                                            </td>
-                                            <td id='phone_<%=user.phone%>'>
-                                                <%=user.phone%>
-                                            </td>
-                                            <td id='email_<%=user.email%>'>
-                                                <%=user.email%>
-                                            </td>
+                                        	<div class="card">
+											  <div class="card-body text-left">
+											    <h4 class="card-title"><span class="badge badge-<%=user.getString("status").replace("N", "warning").replace("Y", "success")%> mb-5"><%=user.getString("status").replace("N", "미처리").replace("Y", "처리완료")%></span> <%=user.get("name")%>@<%=user.get("id")%></h4>
+											    <p class="card-text">전화번호 : <%=user.get("phone")%></p>
+											    <p class="card-text">이메일 : <%=user.get("email")%></p>
+											    <p class="card-text mb-5"><h5><%=user.get("renewal_date")%></h5></p>
+											    <a href="${pageContext.request.contextPath}/FileDown.action?file_name=<%=user.get("file_name")%>" class="btn btn-primary">내려받기</a>
+											    <a data-toggle="modal" data-target="#deleteuser" class="btn btn-primary" style="color:#fff">결과반영</a>
+											  </div>
+											</div>
                                         </tr>
-
                                         <%
-    }
-    %>
-
-                                        <% }); %>
+									    }
+									    %>
                                     </tbody>
                                 </table>
                                 <div class="panel-footer">
@@ -266,11 +279,23 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">정말 회원탈퇴 하시겠습니까?</h5>
+                    <h5 class="modal-title">결과를 반영하시겠습니까?</h5>
                 </div>
                 <div class="modal-footer">
-                    <form action="/deleteuser" method="post">
-                   <button type="submit" class="btn btn-danger btn-link">회원탈퇴</button>
+                    <form action="${pageContext.request.contextPath}/FinderModify.action" method="post">
+						<div class="input-group mb-3 input-group-lg">
+							<div class="input-group-prepend">
+								<span class="input-group-text">실종자 ID</span>
+							</div>
+							<input type="text" class="form-control">
+						</div>
+						<div class="input-group mb-3 input-group-lg">
+							<div class="input-group-prepend">
+								<span class="input-group-text">정확도</span>
+							</div>
+							<input type="text" class="form-control">
+						</div>
+						<button type="submit" class="btn btn-danger btn-link">결과반영</button>
                         <button type="button" class="btn btn-link" data-dismiss="modal">취소</button>
                     </form>
                 </div>
@@ -313,25 +338,11 @@
             &copy;
             <script>
                 document.write(new Date().getFullYear())
-
             </script>, made by
             <a href="/developers" target="_blank">WATCHERS</a> in gachon Univ.
         </div>
     </div>
 </footer>
-
-<!--   Core JS Files   -->
-<script src="${pageContext.request.contextPath}/js/core/jquery.min.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/core/popper.min.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-<script src="${pageContext.request.contextPath}/js/plugins/moment.min.js"></script>
-<!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-<script src="${pageContext.request.contextPath}/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
-<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-<script src="${pageContext.request.contextPath}/js/plugins/nouislider.min.js" type="text/javascript"></script>
-<!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
-<script src="${pageContext.request.contextPath}/js/material-kit.js" type="text/javascript"></script>
-
 </body>
 
 </html>

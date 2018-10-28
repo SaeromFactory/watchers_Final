@@ -46,4 +46,34 @@ public class ContactServiceImpl implements ContactService{
 			throw new WatchersBizException("문의글 등록 중 오류가 발생하였습니다");
 		}
 	}
+
+	@Override
+	public JSONObject procContactModify(BoardVo boardInfo) {
+		JSONObject result = new JSONObject();
+		
+		int cnt = contactMapper.updBoard(boardInfo);
+		
+		if(cnt == 1) {
+			result.put(FrameworkConst.RESULT_CODE, FrameworkConst.RESULT_SUCCESS);
+			result.put(FrameworkConst.RESULT_MSG, "문의글 수정이 완료되었습니다!");
+			return result;
+		} else {
+			throw new WatchersBizException("문의글 수정 중 오류가 발생하였습니다");
+		}
+	}
+
+	@Override
+	public JSONObject procContactRemove(BoardVo boardInfo) {
+		JSONObject result = new JSONObject();
+		
+		int cnt = contactMapper.delBoard(boardInfo);
+		
+		if(cnt == 1) {
+			result.put(FrameworkConst.RESULT_CODE, FrameworkConst.RESULT_SUCCESS);
+			result.put(FrameworkConst.RESULT_MSG, "문의글 삭제가 완료되었습니다!");
+			return result;
+		} else {
+			throw new WatchersBizException("문의글 삭제 중 오류가 발생하였습니다");
+		}
+	}
 }

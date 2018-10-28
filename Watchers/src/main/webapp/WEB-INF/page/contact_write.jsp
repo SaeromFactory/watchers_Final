@@ -46,7 +46,7 @@
 		    
 		    var params = {
         		title	: $('#title').val()
-        	,	contents : $('#contents').val()
+        	,	contents : $('#contents').val().replace(/(?:\r\n|\r|\n)/g, '<br/>')
         	};
         	
         	$.ajax({

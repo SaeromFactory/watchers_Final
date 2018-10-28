@@ -152,7 +152,9 @@
                                     </tr>
                                     <tr>
                                         <td colspan="4" style="height:240px;">
-                                            <%= row.get("contents") %>
+                                            <div class="contents">
+                                            	<%=row.getString("contents").replace("&lt;", "<").replace("&gt;", ">")%>
+                                            </div>
                                         </td>
                                     </tr>
                                 </table>
@@ -234,7 +236,6 @@
         </div>
     </div>
 </footer>
-
 <!--   Core JS Files   -->
 <script src="${pageContext.request.contextPath}/js/core/jquery.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/core/popper.min.js" type="text/javascript"></script>
@@ -246,7 +247,5 @@
 <script src="${pageContext.request.contextPath}/js/plugins/nouislider.min.js" type="text/javascript"></script>
 <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
 <script src="${pageContext.request.contextPath}/js/material-kit.js" type="text/javascript"></script>
-
 </body>
-
 </html>

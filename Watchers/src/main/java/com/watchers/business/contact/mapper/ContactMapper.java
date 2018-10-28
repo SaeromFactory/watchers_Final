@@ -10,4 +10,6 @@ public interface ContactMapper {
 	List<BoardVo> getBoardList();
 	BoardVo getBoard(BoardVo boardInfo);
 	int insBoard(BoardVo boardInfo);
+	int updBoard(BoardVo boardInfo);
+	int delBoard(BoardVo boardInfo);
 }

@@ -9,4 +9,6 @@ public interface ContactService {
 	public JSONArray getBoardList();
 	public JSONObject getBoard(BoardVo boardInfo);
 	public JSONObject procContactWrite(BoardVo boardInfo);
+	public JSONObject procContactModify(BoardVo boardInfo);
+	public JSONObject procContactRemove(BoardVo boardInfo);
 }
