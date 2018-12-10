@@ -19,8 +19,8 @@ public class FinderServiceImpl implements FinderService{
 	FinderMapper finderMapper;
 	
 	@Override
-	public JSONArray getFinderList() {
-		List<FinderVo> list = finderMapper.getFinderList();
+	public JSONArray getFinderList(FinderVo finderInfo) {
+		List<FinderVo> list = finderMapper.getFinderList(finderInfo);
 		return JSONArray.fromObject(list);
 	}
 
@@ -29,6 +29,27 @@ public class FinderServiceImpl implements FinderService{
 		JSONObject result = new JSONObject();
 		
 		int cnt = finderMapper.updFinder(finderInfo);
+		
+		if(cnt == 1) {
+			result.put(FrameworkConst.RESULT_CODE, FrameworkConst.RESULT_SUCCESS);
+			result.put(FrameworkConst.RESULT_MSG, "결과반영이 완료되었습니다!");
+			return result;
+		} else {
+			throw new WatchersBizException("결과반영 중 오류가 발생하였습니다");
+		}
+	}
+
+	@Override
+	public JSONArray getMissingsList(FinderVo finderInfo) {
+		List<FinderVo> list = finderMapper.getMissingsList(finderInfo);
+		return JSONArray.fromObject(list);
+	}
+
+	@Override
+	public JSONObject insFinder(FinderVo finderInfo) {
+		JSONObject result = new JSONObject();
+		
+		int cnt = finderMapper.insFinder(finderInfo);
 		
 		if(cnt == 1) {
 			result.put(FrameworkConst.RESULT_CODE, FrameworkConst.RESULT_SUCCESS);

@@ -73,6 +73,14 @@
 				}
 			});	
 		}
+		
+		function id_check(){
+			alert("사용가능한 ID입니다.");	
+		}
+		
+	    function underconstructor(){
+	    	alert("서비스 준비중입니다.");	
+	    }
     </script>
 
 </head>

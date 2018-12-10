@@ -18,4 +18,9 @@ public class MainController {
 		return "/main";
 	}
 	
+	@RequestMapping(value = "About.watchers", method = {RequestMethod.GET,RequestMethod.POST})
+	public String goMenual(HttpServletRequest request){
+		return "/manual";
+	}
+	
 }

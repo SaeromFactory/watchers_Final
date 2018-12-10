@@ -7,6 +7,8 @@ import com.watchers.common.annotation.WatchersMyBatisMapper;
 
 @WatchersMyBatisMapper
 public interface FinderMapper {
-	List<FinderVo> getFinderList();
+	List<FinderVo> getFinderList(FinderVo finderInfo);
 	int updFinder(FinderVo finderInfo);
+	int insFinder(FinderVo finderInfo);
+	List<FinderVo> getMissingsList(FinderVo finderInfo);
 }

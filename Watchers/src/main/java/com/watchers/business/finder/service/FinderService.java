@@ -6,6 +6,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public interface FinderService {
-	public JSONArray getFinderList();
+	public JSONArray getFinderList(FinderVo finderInfo);
 	public JSONObject procFinderModify(FinderVo finderInfo);
+	public JSONArray getMissingsList(FinderVo finderInfo);
+	public JSONObject insFinder(FinderVo finderInfo);
 }

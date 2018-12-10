@@ -41,6 +41,8 @@
 	<script src="${pageContext.request.contextPath}/js/material-kit.js" type="text/javascript"></script>
 	
      <style>
+     
+     
         .user-row {
             margin-bottom: 14px;
         }
@@ -79,6 +81,7 @@
     </style>
     <%
     	JSONArray list = (JSONArray)request.getAttribute("FinderList");
+    	JSONArray missing_list = (JSONArray)request.getAttribute("MissingsList");
     %>
     <script>
         $(document).ready(function() {
@@ -107,57 +110,64 @@
 
             $('[data-toggle="tooltip"]').tooltip();
 
+        
 			$(document).on('change', ':file', function() {
 				$(this).parent().parent().parent().prev().val($(this).val().replace(/\\/g, '/').replace(/.*\//, ''));
 			});
+			
         });
-		function onModal(idx) {
-			$('#idx').val(idx);
-		}
-        function onWriteSubmit() {
-		    if ($("#missings_id").val().trim() == "") {
-		        var message = "ID를 입력해 주세요";
-		        $("#missings_id").val("");
-		        $("#missings_id").focus();
-		        alert(message);
-		        return false;
-		    }
+        
+        function onWriteSubmit(){
+		    var data;
 		
-		    if ($("#accuracy").val().trim() == "") {
-		        var message = "정확도를 입력해 주세요";
-		        $("#accuracy").val("");
-		        $("#accuracy").focus();
-		        alert(message);
-		        return false;
-		    }
+		    data = new FormData();
+		    data.append('file', $('#file')[0].files[0]);
 		    
-		    var params = {
-		    	idx			: $('#idx').val()
-        	,	accuracy	: $('#accuracy').val()
-        	,	missings_id : $('#missings_id').val()
-        	};
-        	
-        	$.ajax({
-				type:"POST",
-				url: "${pageContext.request.contextPath}/FinderModify.action", 
-				cache: false, 
-				async:true,
-				data:params,
-				dataType:"json",
-				success:function(response){
-					if(response.<%=FrameworkConst.RESULT_CODE%> != "<%=FrameworkConst.RESULT_SUCCESS%>") {
+		
+		    $.ajax({
+			  url: '${pageContext.request.contextPath}/FileUpload.action',
+			  data: data,
+			  processData: false,
+			  contentType: false,
+			  type: 'POST',
+			  success: function(response){
+			    if(response.<%=FrameworkConst.RESULT_CODE%> != "<%=FrameworkConst.RESULT_SUCCESS%>") {
 						alert(response.<%=FrameworkConst.RESULT_MSG%>);
 					} else {
 						alert('처리결과가 반영되었습니다.');
-						window.location.href = '${pageContext.request.contextPath}/Finder.watchers';
+						window.location.href = '${pageContext.request.contextPath}/FindReq.watchers';
 					}
 				},
 				error:function(jqXHR, status) {
 					alert(jqXHR.<%=FrameworkConst.RESULT_MSG%>);
 				}
-			});	
-		}
-        
+			});
+// 		    $.ajax({
+// 		        url: '${pageContext.request.contextPath}/FileUpload.action',
+// 		        data: data,
+// 		        processData: false,
+// 		        type: 'POST',
+		
+// 		        // This will override the content type header, 
+// 		        // regardless of whether content is actually sent.
+// 		        // Defaults to 'application/x-www-form-urlencoded'
+// 		        contentType: 'multipart/form-data', 
+		
+// 		        //Before 1.5.1 you had to do this:
+// 		        beforeSend: function (x) {
+// 		            if (x && x.overrideMimeType) {
+// 		                x.overrideMimeType("multipart/form-data");
+// 		            }
+// 		        },
+// 		        // Now you should be able to do this:
+// 		        mimeType: 'multipart/form-data',    //Property added in 1.5.1
+		
+// 		        success: function (data) {
+// 		            alert(data);
+// 		        }
+// 		    });
+        }
+
 	    function underconstructor(){
 	    	alert("서비스 준비중입니다.");	
 	    }
@@ -247,44 +257,69 @@
             <div class="section text-center">
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto">
-                        <h2 class="title">걸음걸이 영상 관리</h2>
-                        <p class="description" style="font-family: 나눔바른고딕;">'WATCHERS'의 회원들이 요청한 걸음걸이 영상을 관리하는 페이지입니다.<br/></p>
+                        <h2 class="title">걸음걸이 유사도 검사</h2>
+                        <p class="description" style="font-family: 나눔바른고딕;">녹화하신 걸음걸이의 csv파일을 업로드 해주세요.<br/></p>
                     </div>
                 </div>
+                
+                <a data-original-title="회원 삭제" data-toggle="modal" type="button" data-target="#deleteuser" class="btn btn-primary" style="color:#fff; float:left; margin-top:30px; margin-left:35px; margin-bottom:30px;"><i class="material-icons">file_upload</i> 파일 업로드하기</a>
+                
+                <br/>
                 <div class="container" style="margin-top:50px;">
                     <div class="contact-wrap">
-                        <div class="status alert alert-success" style="display: none"></div>
+                    
+                      
                         <div class="col-md-6 col-md-offset-3">
                             <form id="contactForm" name="sentMessage" novalidate>
 
-                                <!-- 목록 리스트 쭉 나열 후 체크 하는 회원은 강제 탈퇴 가능 -->
-
                                 <table class="table table-user-information">
+                                <div class="card-columns"></div>
                                     <tbody>
-                                        <%
-									    for(int i=0; i<list.size(); i++)
-									    {
-									
-									        JSONObject user = list.getJSONObject(i);
-									    %>
-									    	
+										<%
+			                               for(int i=0; i<list.size(); i++)
+			                               {
+			                           
+			                                   JSONObject user = list.getJSONObject(i);
+			                               %>
                                         <tr>
-                                        	<div class="card">
-											  <div class="card-body text-left">
-											    <h4 class="card-title" style="font-family: 나눔바른펜;"><span class="badge badge-<%=user.getString("status").replace("N", "warning").replace("Y", "success")%> mb-5"><%=user.getString("status").replace("N", "미처리").replace("Y", "처리완료")%></span> <%=user.get("name")%>@<%=user.get("id")%></h4>
-											    <p class="card-text">전화번호 : <%=user.get("phone")%></p>
-											    <p class="card-text">이메일 : <%=user.get("email")%></p>
-											    <p class="card-text mb-5"><h5><%=user.get("renewal_date")%></h5></p>
-											    <a href="${pageContext.request.contextPath}/FileDown.action?file_name=<%=user.get("file_name")%>" class="btn btn-primary">내려받기</a>
-											    <a data-toggle="modal" data-target="#deleteuser" class="btn btn-primary" style="color:#fff" onclick="onModal('<%=user.get("idx")%>');">결과반영</a>
-											  </div>
-											</div>
+                                           <div class="card-deck" style="width: -webkit-fill-available;">
+                                              <div class="card">
+			                                      <div class="card-body text-left">
+			                                        <h4 class="card-title" style="font-family: 나눔바른펜;"><span class="badge badge-<%=user.getString("status").replace("N", "warning").replace("Y", "success")%> mb-5"><%=user.getString("status").replace("N", "미처리").replace("Y", "처리완료")%></span>  <%=user.get("name")%>@<%=user.get("id")%></h4>
+			                                        <p class="card-text">전화번호 : <%=user.get("phone")%></p>
+			                                        <p class="card-text">이메일 : <%=user.get("email")%></p>
+			                                        <p class="card-text mb-5"><h5><%=user.get("renewal_date")%></h5></p>
+			                                        </div>
+			                                    </div>
+			                                    <% for(int j=0; j < missing_list.size(); j++){
+			                                    	JSONObject missings = missing_list.getJSONObject(i);
+			                                    	if(user.getString("status").equals("Y") && missings.getString("idx").equals(user.getString("idx"))){
+	                                    		%>
+			                                    <div class="card">
+			                                      <div class="card-body text-left">
+			                                        <h4 class="card-title" style="font-family: 나눔바른펜;">걸음걸이 검사 결과</h4>
+			                                       <p class="card-text">이름 : <%=missings.get("name")%></p>
+														    <p class="card-text">성별 : <%=missings.get("sex")%></p>
+														    <p class="card-text">실종 당시 나이 : <%=missings.get("occr_age")%></p>
+														    <p class="card-text">현재 나이 : <%=missings.get("current_age")%></p>
+														    <p class="card-text">실종 날짜 : <%=missings.get("occr_date")%></p>
+														    <p class="card-text">실종 지역 : <%=missings.get("occr_address")%></p> 
+			                                       </div>
+			                                    </div>
+			                                    <%
+			                                    	}
+			                               		}
+												%>
+			                                 </div>
                                         </tr>
                                         <%
-									    }
-									    %>
+		                               }
+		                               %>
                                     </tbody>
                                 </table>
+                                
+                                
+                                <br />
                             </form>
                         </div>
                     </div>
@@ -299,24 +334,23 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">결과를 반영하시겠습니까?</h5>
+                    <h5 class="modal-title">걸음걸이 영상을 업로드 해주세요.</h5>
                 </div>
-                <div class="modal-footer" style="padding-right:100px;">
-                    <form onsubmit="return false;">
-                    	<input type="hidden" id="idx">
-						<div class="input-group mb-3 input-group-lg">
-							<div class="input-group-prepend">
-								<span class="input-group-text">실종자 ID</span>
-							</div>
-							&nbsp;<input type="text" class="form-control" id="missings_id">
-						</div>
-						<div class="input-group mb-3 input-group-lg">
-							<div class="input-group-prepend">
-								<span class="input-group-text">정확도</span>
-							</div>
-							&nbsp;<input type="text" class="form-control" id="accuracy">
-						</div>
-						<button class="btn btn-primary btn-round" onclick="onWriteSubmit();">결과반영</button>
+                <div class="modal-footer">
+                    <form method="post" onsubmit="return false;">
+						<div class="file_upload" style="margin-top:20px; margin-bottom:30px;">
+									            <div class="input-group">
+									                <input type="text" class="form-control mt-1 pl-5"  style="margin-left:-300px;" readonly>
+									                <div class="input-group-append">
+										                <label class="input-group-btn pl-0">
+										                    <span class="btn btn-primary mt-0">
+										                        	찾아보기&hellip; <input type="file" id="file" style="display: none;">
+										                    </span>
+										                </label>
+									                </div>
+									            </div>
+									        </div>
+						<button type="submit" class="btn btn-primary btn-round" onclick="onWriteSubmit();">확인</button>
                         <button type="button" class="btn btn-link" data-dismiss="modal">취소</button>
                     </form>
                 </div>

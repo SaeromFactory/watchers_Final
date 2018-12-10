@@ -80,6 +80,11 @@
 
     </style>
 
+	<script type="text/javascript">
+    function underconstructor(){
+    	alert("서비스 준비중입니다.");	
+    }
+    </script>
 </head>
 
 <body class="index-page sidebar-collapse">
@@ -101,7 +106,7 @@
                     <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/about" class="nav-link">다운로드 / 메뉴얼</a>
+                    <a href="${pageContext.request.contextPath}/About.watchers" class="nav-link">다운로드 / 메뉴얼</a>
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Login.watchers" class="nav-link">로그인</a>
@@ -111,10 +116,7 @@
                     <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/about" class="nav-link">다운로드 / 메뉴얼</a>
-                </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/index" class="nav-link">걸음걸이 유사도 검사</a>
+                    <a href="${pageContext.request.contextPath}/About.watchers" class="nav-link">다운로드 / 메뉴얼</a>
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Contact.watchers" class="nav-link">문의게시판</a>
@@ -123,28 +125,28 @@
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Finder.watchers" class="nav-link">걸음걸이 영상 관리</a>
                 </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/dashboard" class="nav-link">대시보드</a>
-                </li>
                 <li class="dropdown nav-item">
                     <a href="#pablo" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="material-icons">build</i> 회원관리 </a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header">[관리자] <%=SessionLoginUtil.getLoginUser().getUser_name()%> 님 환영합니다 :) </h6>
-                            <a href="${pageContext.request.contextPath}/userlist" class="dropdown-item">회원 목록</a>
+                            <a href="javascript:underconstructor()" class="dropdown-item">회원 목록</a>
                             <div class="dropdown-divider"></div>
                             <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
                     </div>
                 </li>
                 <% } else { %>
+                <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/FindReq.watchers" class="nav-link">걸음걸이 유사도 검사</a>
+                </li>
                	<li class="dropdown nav-item">
                     <a href="#pablo" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="material-icons">face</i> User </a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header"><%=SessionLoginUtil.getLoginUser().getUser_name()%> 님
                            	환영합니다 :)</h6>
-                        <a href="${pageContext.request.contextPath}/user_inf" class="dropdown-item">회원정보 조회</a>
-                            <a href="${pageContext.request.contextPath}/user_del" class="dropdown-item">회원 탈퇴</a>
+                        <a href="javascript:underconstructor()" class="dropdown-item">회원정보 조회</a>
+                            <a href="javascript:underconstructor()" class="dropdown-item">회원 탈퇴</a>
                             <div class="dropdown-divider"></div>
-                            <a href="${pageContext.request.contextPath}/user_posts" class="dropdown-item">개인 게시글 관리</a>
+                            <a href="javascript:underconstructor()" class="dropdown-item">개인 게시글 관리</a>
                             <div class="dropdown-divider"></div>
                             <a data-toggle="modal" data-target="#myModal" class="dropdown-item">로그아웃</a>
                     </div>
@@ -166,7 +168,7 @@
                     </h1>
                     <p class="animation animated-item-2" style="font-family:배달의민족 도현; font-size:22px; line-height:1.5em; margin-top:30px;">개개인마다 다른 걸음걸이의 기계 학습을 이용한 <br>생체 인식 기능 프로그램</p>
                     <button class="btn btn-primary btn-round" style="margin-top:20px;">
-                        <i class="material-icons">add</i>&nbsp; 더 알아보기
+                        <a href="${pageContext.request.contextPath}/About.watchers" style="color:#fff !important"><i class="material-icons">add</i>&nbsp; 경험해보기</a>
                     </button>
                 </div>
             </div>
@@ -183,7 +185,7 @@
 </div>
 <!-- 	            end nav tabs -->
 
-<div class="back-clr" style="margin-top:250px; background-color:#fff;">
+<div id="back-clr" class="back-clr" style="margin-top:250px; background-color:#fff;">
     <div class="container">
         <div class="row text-center pad-top pad-bottom">
             <div class="col-md-3">

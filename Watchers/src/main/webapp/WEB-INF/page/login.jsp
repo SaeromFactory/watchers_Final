@@ -70,6 +70,10 @@
 				}
 			});	
         }
+    	
+    	function underconstructor(){
+	    	alert("서비스 준비중입니다.");	
+	    }
     </script>
 
 </head>
@@ -156,7 +160,8 @@
                         <input type="text" name="user_name" placeholder="사용자 이름" style="border-bottom: 1px solid #9c27b0; border-left: 0px; border-top: 0px; border-right: 0px; width:350px;">
                     </div>
                     <div style="text-align:center;">
-                        <input type="submit" value="아이디 찾기" class="btn btn-primary btn-round" href="/find_id" style="margin-top:32px;">
+<!--                         <input type="submit" value="아이디 찾기" class="btn btn-primary btn-round" href="/find_id" style="margin-top:32px;"> -->
+							<a href="javascript:underconstructor()" class="btn btn-primary btn-round" style="margin-top:32px;">아이디 찾기</a>
                     </div>
                 </form>
             </div>

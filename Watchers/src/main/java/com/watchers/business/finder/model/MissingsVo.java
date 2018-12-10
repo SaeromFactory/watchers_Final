@@ -1,6 +1,7 @@
 package com.watchers.business.finder.model;
 
 public class MissingsVo {
+	private String idx;
 	private String id;
 	private String type;
 	private String sex;
@@ -9,6 +10,14 @@ public class MissingsVo {
 	private String current_age;
 	private String occr_date;
 	private String occr_address;
+
+	public String getIdx() {
+		return idx;
+	}
+
+	public void setIdx(String idx) {
+		this.idx = idx;
+	}
 
 	public String getId() {
 		return id;

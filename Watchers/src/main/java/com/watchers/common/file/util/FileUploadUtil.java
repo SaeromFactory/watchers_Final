@@ -18,10 +18,10 @@ import com.watchers.common.mstdata.util.SystemPropsUtil;
 @Component
 public class FileUploadUtil {
 	
-	public static int upload(HttpServletRequest request, String fileName){
+	public static String upload(HttpServletRequest request){
 		MultipartHttpServletRequest mpRequest = (MultipartHttpServletRequest)request;
  	    Iterator<String> fileNameIterator = mpRequest.getFileNames();
- 	    int retcode = 0;
+ 	    String fileName = "";
  	    
  	    while (fileNameIterator.hasNext()) {
      	    	//파일정보를 하나씩 취득한다
@@ -29,6 +29,7 @@ public class FileUploadUtil {
      	        if (multiFile.getSize() > 0) { // writing file to a directory
      	        	
      	        	String uploadPath = SystemPropsUtil.getEnvironProperty("FILE_UPLOAD_PATH").replace("\\", File.separator);
+     	        	fileName = multiFile.getOriginalFilename();
      	        	String pattern = Pattern.quote(File.separator);
      	        	
      	        	for(int i = 0; i < fileName.split(pattern).length-1; i++){
@@ -39,18 +40,17 @@ public class FileUploadUtil {
      	        		}
      	        	}
      	        	
-     	        	File upLoadedfile = new File(uploadPath+fileName);
+     	        	File upLoadedfile = new File(uploadPath+File.separator+fileName);
      	        	try {
 						upLoadedfile.createNewFile();
 						FileOutputStream fos = new FileOutputStream(upLoadedfile); 
 	     	        	fos.write(multiFile.getBytes());
 	     	        	fos.close(); //setting the value of fileUploaded variable
-	     	        	retcode++;
 					} catch (IOException e) {
 						throw new WatchersBizException("File Upload에 실패하였습니다.");
 					} 
      	        }
          }
- 	     return retcode;
+ 	     return fileName;
 	}
 }

@@ -121,7 +121,7 @@
                     <a href="${pageContext.request.contextPath}/" class="nav-link">홈</a>
                 </li>
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/about" class="nav-link">다운로드 / 메뉴얼</a>
+                    <a href="${pageContext.request.contextPath}/About.watchers" class="nav-link">다운로드 / 메뉴얼</a>
                 </li>
                 <li class="nav-item">
                     <a href="${pageContext.request.contextPath}/Login.watchers" class="nav-link">로그인</a>
